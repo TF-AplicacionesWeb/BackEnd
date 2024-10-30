@@ -1,0 +1,22 @@
+# Archivos de configuración específicos del entorno de trabajo
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+# Librerías
+*.nuget/
+
+# Configuración de Rider y Visual Studio
+.idea/
+*.sln.iml
+ReSharper/*
