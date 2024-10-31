@@ -57,7 +57,12 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
-
+builder.Services.AddScoped<IDentistRepository, DentistRepository>();
+builder.Services.AddScoped<IDentistCommandService, DentistCommandService>();
+builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
+builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
+builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
+builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
 
 
 var app = builder.Build();

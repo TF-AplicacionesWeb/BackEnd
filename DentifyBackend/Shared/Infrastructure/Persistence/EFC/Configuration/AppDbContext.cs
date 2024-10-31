@@ -33,6 +33,39 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<User>().Property(f => f.company).IsRequired();
         builder.Entity<User>().Property(f => f.password).IsRequired();
         
+        
+        builder.Entity<Dentist>().HasKey(d => d.id);
+        builder.Entity<Dentist>().Property(d => d.id).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.first_name).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.last_name).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.specialty).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.experience).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.phone).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.email).IsRequired();
+        builder.Entity<Dentist>().Property(d => d.total_appointments).IsRequired();
+        builder.Entity<Dentist>()
+            .HasOne<User>()               
+            .WithMany()         
+            .HasForeignKey(d => d.user_id)     
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
+        builder.Entity<ScheduleDentist>().HasKey(s => s.id);
+        builder.Entity<ScheduleDentist>().Property(s => s.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<ScheduleDentist>().Property(s => s.weekday).IsRequired();
+        builder.Entity<ScheduleDentist>().Property(s => s.start_time).IsRequired();
+        builder.Entity<ScheduleDentist>().Property(s => s.end_time).IsRequired();
+        builder.Entity<ScheduleDentist>().Property(s => s.date).IsRequired();
+        builder.Entity<ScheduleDentist>()
+            .HasOne<User>()               
+            .WithMany()         
+            .HasForeignKey(d => d.user_id)     
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<ScheduleDentist>()
+            .HasOne<Dentist>()
+            .WithMany(d => d.schedules)
+            .HasForeignKey(s => s.dentist_id);
+        
         builder.UseSnakeCaseNamingConvention();
     }
 }
