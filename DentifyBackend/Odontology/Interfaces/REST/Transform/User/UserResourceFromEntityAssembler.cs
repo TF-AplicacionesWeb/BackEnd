@@ -15,5 +15,5 @@ public class UserResourceFromEntityAssembler
     
     public static UserResource ToResourceFromEntity(User entity) => 
         new UserResource(entity.id, entity.username, entity.first_name, entity.last_name, entity.email, entity.phone,
-            entity.register_date, entity.company, entity.password);
+            entity.register_date, entity.company, entity.password, entity.trial);
 }
