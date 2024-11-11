@@ -32,6 +32,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<User>().Property(f => f.register_date).IsRequired();
         builder.Entity<User>().Property(f => f.company).IsRequired();
         builder.Entity<User>().Property(f => f.password).IsRequired();
+        builder.Entity<User>().Property(f => f.trial).IsRequired();
         
         
         builder.Entity<Dentist>().HasKey(d => d.id);
