@@ -16,6 +16,7 @@ public class User
         register_date = DateTime.Now;
         company = string.Empty;
         password = string.Empty;
+        trial = false;
         
         
     }
@@ -30,6 +31,7 @@ public class User
         register_date = command.register_date;
         company = command.company;
         password = command.password;
+        trial = command.trial;
     }
     
     
@@ -42,4 +44,6 @@ public class User
     public DateTime register_date { get; private set; }
     public string company { get; private set; }
     public string password { get; private set; }
+    
+    public bool trial { get; private set; }
 }
