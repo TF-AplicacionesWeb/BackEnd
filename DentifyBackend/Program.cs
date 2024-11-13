@@ -3,6 +3,7 @@ using DentifyBackend.Dentify.Application.Internal.QueryServices;
 using DentifyBackend.Dentify.Domain.Repositories;
 using DentifyBackend.Dentify.Domain.Services;
 using DentifyBackend.Dentify.Infrastructure.Repositories;
+using DentifyBackend.Odontology.Domain.Services.Inventory;
 using DentifyBackend.Shared.Domain.Repositories;
 using DentifyBackend.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -63,6 +64,9 @@ builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
 builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
+builder.Services.AddScoped<IIventoryQueryService, InventoryQueryService>();
 
 
 var app = builder.Build();
