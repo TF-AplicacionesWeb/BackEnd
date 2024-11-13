@@ -63,6 +63,9 @@ builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
 builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
+builder.Services.AddScoped<ISupportMessageRepository, SupportMessageRepository>();
+builder.Services.AddScoped<ISupportMessageCommandService, SupportMessageCommandService>();
+builder.Services.AddScoped<ISupportMessageQueryService, SupportMessageQueryService>();
 
 
 var app = builder.Build();

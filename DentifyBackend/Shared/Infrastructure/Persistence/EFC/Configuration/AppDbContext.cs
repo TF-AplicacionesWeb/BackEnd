@@ -67,6 +67,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .WithMany(d => d.schedules)
             .HasForeignKey(s => s.dentist_id);
         
+        
+        builder.Entity<SupportMessage>().HasKey(s => s.id);
+        builder.Entity<SupportMessage>().Property(s => s.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<SupportMessage>().Property(s => s.name).IsRequired();
+        builder.Entity<SupportMessage>().Property(s => s.email).IsRequired();
+        builder.Entity<SupportMessage>().Property(s => s.description).IsRequired();
+        builder.Entity<SupportMessage>()
+            .HasOne<User>()               
+            .WithMany()         
+            .HasForeignKey(s => s.user_id)     
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.UseSnakeCaseNamingConvention();
     }
 }
