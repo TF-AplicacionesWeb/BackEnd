@@ -28,4 +28,46 @@ public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUni
 
         return payments;
     }
+
+    public async Task<Payments?> Handle(UpdatePaymentsCommand command, int id)
+    {
+        var existingPaymentsById = await paymentsRepository.FindByIdAsync(id);
+        if (existingPaymentsById == null)
+            throw new InvalidOperationException("A payments with this id not exist");
+
+        existingPaymentsById.amount = command.amount;
+        existingPaymentsById.payment_date = new DateTime();
+        existingPaymentsById.user_id = command.user_id;
+        
+        try
+        {
+            paymentsRepository.Update(existingPaymentsById);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("An error occurred while updating the Payment. Please try again.", dbEx);
+        }
+
+        return existingPaymentsById;
+    }
+
+    public async Task<Payments?> Handle(DeletePaymentsCommand command, int id)
+    {
+        var existingPaymentsById = await paymentsRepository.FindByIdAsync(id);
+        if (existingPaymentsById == null)
+            throw new InvalidOperationException("A payments with this id not exist");
+        
+        try
+        {
+            paymentsRepository.Remove(existingPaymentsById);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("An error occurred while deleting the Payment. Please try again.", dbEx);
+        }
+
+        return existingPaymentsById;
+    }
 }

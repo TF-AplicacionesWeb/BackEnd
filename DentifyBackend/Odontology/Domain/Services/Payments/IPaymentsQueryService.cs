@@ -5,5 +5,6 @@ namespace DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Dentify.Domain.Model.Aggregates;
 public interface IPaymentsQueryService
 {
+    Task<IEnumerable<Payments>> Handle(GetAllPaymentsQuery query);
     Task<Payments?> Handle(GetPaymentsByIdQuery query);
 }

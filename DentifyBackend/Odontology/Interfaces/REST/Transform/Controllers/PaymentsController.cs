@@ -52,4 +52,76 @@ public class PaymentsController(
         var resource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
+    
+     
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Get all the Payments",
+        Description = "Get all the Payments",
+        OperationId = "GetAllPayments")]
+    [SwaggerResponse(200, "Payments were found", typeof(IEnumerable<PaymentsResource>))]
+    [SwaggerResponse(204, "Payments were not found")]
+    public async Task<ActionResult> GetAllPayments()
+    {
+        var getAllPaymentsQuery = new GetAllPaymentsQuery();
+        var result = await paymentsQueryService.Handle(getAllPaymentsQuery);
+        if (!result.Any()) return NoContent();
+        var resources = result.Select(PaymentsResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+        return Ok(resources);
+    }
+    
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update a payment",
+        Description = "Update the information of an existing payment",
+        OperationId = "UpdatePayment")]
+    [SwaggerResponse(200, "The payment was updated successfully", typeof(PaymentsResource))]
+    [SwaggerResponse(404, "The payment was not found")]
+    public async Task<ActionResult> UpdatePayment(int id, [FromBody] UpdatePaymentsResource resource)
+    {
+        var getPaymentsByIdQuery = new GetPaymentsByIdQuery(id);
+        var existingPayment = await paymentsQueryService.Handle(getPaymentsByIdQuery);
+        if (existingPayment is null)
+        {
+            return NotFound("The specified payment could not be found.");
+        }
+    
+        var updatePaymentCommand = UpdatePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var result = await paymentsCommandService.Handle(updatePaymentCommand, id);
+    
+        if (result is null) 
+            return BadRequest("The update command could not be processed, check the provided data.");
+    
+        var updatedPaymentResource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
+        return Ok(updatedPaymentResource);
+    }
+    
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete a payment",
+        Description = "Delete a payment by its identifier",
+        OperationId = "DeletePayment")]
+    [SwaggerResponse(200, "The payment was deleted successfully")]
+    [SwaggerResponse(404, "The payment was not found")]
+    public async Task<IActionResult> DeletePayment(int id, DeletePaymentsResource resource)
+    {
+        var getPaymentsByIdQuery = new GetPaymentsByIdQuery(id);
+        var existingPayment = await paymentsQueryService.Handle(getPaymentsByIdQuery);
+        if (existingPayment is null)
+        {
+            return NotFound("The specified payment could not be found.");
+        }
+    
+        var deletePaymentCommand = DeletePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var result = await paymentsCommandService.Handle(deletePaymentCommand, id);
+    
+        if (result is null) 
+            return BadRequest("The delete command could not be processed, check the provided identifier.");
+    
+        var deletedPaymentResource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
+        return Ok(deletedPaymentResource);
+    }
+
+    
 }

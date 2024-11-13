@@ -8,6 +8,10 @@ namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
 public class PaymentsQueryService(IPaymentsRepository paymentsRepository)
     :IPaymentsQueryService
 {
+    public async Task<IEnumerable<Payments>> Handle(GetAllPaymentsQuery query)
+    {
+        return await paymentsRepository.ListAsync();
+    }
 
     public async Task<Payments?> Handle(GetPaymentsByIdQuery query)
     {
