@@ -66,6 +66,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne<Dentist>()
             .WithMany(d => d.schedules)
             .HasForeignKey(s => s.dentist_id);
+
+        builder.Entity<Payments>().HasKey(p => p.id);
+        builder.Entity<Payments>().Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Payments>().Property(p => p.amount).IsRequired();
+        builder.Entity<Payments>().Property(p => p.payment_date).IsRequired();
+        builder.Entity<Payments>().HasOne<User>().WithMany().HasForeignKey(p => p.user_id)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.UseSnakeCaseNamingConvention();
     }
