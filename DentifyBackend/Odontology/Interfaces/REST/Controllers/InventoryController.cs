@@ -64,7 +64,7 @@ public class InventoryController(
         return Ok(resources);
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     [SwaggerOperation(
         Summary = "Update a product",
         Description = "Update information about a product in inventory",
@@ -75,11 +75,19 @@ public class InventoryController(
     {
         var getInventoryByIdQuery = new GetInventoryByIdQuery(id);
         var existingInventory = await inventoryQueryService.Handle(getInventoryByIdQuery);
-        if (existingInventory is null) return NotFound("The specified product could not be found.");
+        
+        if (existingInventory is null)
+            return NotFound("The specified product could not be found.");
+        
         var updateInventoryCommand = UpdateInventoryCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await inventoryCommandService.Handle(updateInventoryCommand, id);
-        if (result is null) return BadRequest("The update command could not be processed, check the provided data.");
+        
+        if (result is null) 
+            return BadRequest("The update command could not be processed, check the provided data.");
+        
+        
         var updatedInventoryResource = InventoryResourceFromEntityAssembler.ToResourceFromEntity(result);
+        
         return Ok(updatedInventoryResource);
     }
 

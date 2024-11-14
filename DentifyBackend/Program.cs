@@ -1,10 +1,12 @@
 using DentifyBackend.Odontology.Application.Internal.CommandServices;
 using DentifyBackend.Odontology.Application.Internal.QueryServices;
 using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.Appointment;
 using DentifyBackend.Odontology.Domain.Services.ClinicalRecordService;
 using DentifyBackend.Odontology.Domain.Services.Dentist;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Odontology.Domain.Services.Inventory;
+using DentifyBackend.Odontology.Domain.Services.Patient;
 using DentifyBackend.Odontology.Domain.Services.ScheduleDentist;
 using DentifyBackend.Odontology.Domain.Services.SupportMessage;
 using DentifyBackend.Odontology.Domain.Services.User;
@@ -70,9 +72,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+
 builder.Services.AddScoped<IDentistRepository, DentistRepository>();
 builder.Services.AddScoped<IDentistCommandService, DentistCommandService>();
 builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
+
 builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
@@ -88,9 +92,19 @@ builder.Services.AddScoped<ISupportMessageQueryService, SupportMessageQueryServi
 builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
 builder.Services.AddScoped<IPaymentsCommandService, PaymentsCommandService>();
 builder.Services.AddScoped<IPaymentsQueryService, PaymentsQueryService>();
+
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
 builder.Services.AddScoped<IIventoryQueryService, InventoryQueryService>();
+
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IPatientCommandService, PatientCommandService>();
+builder.Services.AddScoped<IPatientQueryService, PatientQueryService>();
+
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentCommandService, AppointmentCommandService>();
+builder.Services.AddScoped<IAppointmentQueryService, AppointmentQueryService>();
+
 
 var app = builder.Build();
 
