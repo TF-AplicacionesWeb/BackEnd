@@ -62,12 +62,12 @@ public class PatientCommandService(IPatientRepository patientRepository, IUnitOf
 
     public async Task Handle(DeletePatientCommand command)
     {
-        var user = await patientRepository.FindByIdAsync(command.id);
+        var patient = await patientRepository.FindByIdAsync(command.id);
 
-        if (user == null) throw new KeyNotFoundException($"Dentist with ID {command.id} not found.");
+        if (patient == null) throw new KeyNotFoundException($"Patient with ID {command.id} not found.");
 
 
-        patientRepository.Remove(user);
+        patientRepository.Remove(patient);
 
 
         await unitOfWork.CompleteAsync();
