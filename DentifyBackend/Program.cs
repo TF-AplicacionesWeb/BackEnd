@@ -2,6 +2,7 @@ using DentifyBackend.Dentify.Application.Internal.CommandServices;
 using DentifyBackend.Dentify.Application.Internal.QueryServices;
 using DentifyBackend.Dentify.Domain.Repositories;
 using DentifyBackend.Dentify.Domain.Services;
+using DentifyBackend.Dentify.Domain.Services.ClinicalRecordService;
 using DentifyBackend.Dentify.Infrastructure.Repositories;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Odontology.Domain.Services.Inventory;
@@ -73,6 +74,10 @@ builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
 
+builder.Services.AddScoped<IClinicalRecordRepository, ClinicalRecordRepository>();
+builder.Services.AddScoped<IClinicalRecordCommandService, ClinicalRecordComandService>();
+builder.Services.AddScoped<IClinicalRecordQueryService, ClinicalRecordQueryService>();
+
 builder.Services.AddScoped<ISupportMessageRepository, SupportMessageRepository>();
 builder.Services.AddScoped<ISupportMessageCommandService, SupportMessageCommandService>();
 builder.Services.AddScoped<ISupportMessageQueryService, SupportMessageQueryService>();
@@ -83,7 +88,6 @@ builder.Services.AddScoped<IPaymentsQueryService, PaymentsQueryService>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
 builder.Services.AddScoped<IIventoryQueryService, InventoryQueryService>();
-
 
 var app = builder.Build();
 

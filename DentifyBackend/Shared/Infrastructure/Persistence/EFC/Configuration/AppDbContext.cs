@@ -85,6 +85,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .OnDelete(DeleteBehavior.Cascade);
         
         
+
+        builder.Entity<ClinicalRecord>().Property(c => c.id).IsRequired();
+        builder.Entity<ClinicalRecord>().Property(c => c.medical_history).IsRequired();
+        builder.Entity<ClinicalRecord>().Property(c => c.record_date).IsRequired();
+        builder.Entity<ClinicalRecord>().Property(c => c.diagnosis).IsRequired();
+        builder.Entity<ClinicalRecord>().Property(c => c.treatment).IsRequired();
+        builder.Entity<ClinicalRecord>()
+            .HasOne<User>()               
+            .WithMany()         
+            .HasForeignKey(c => c.user_id)     
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
+
         builder.Entity<SupportMessage>().HasKey(s => s.id);
         builder.Entity<SupportMessage>().Property(s => s.id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<SupportMessage>().Property(s => s.name).IsRequired();
