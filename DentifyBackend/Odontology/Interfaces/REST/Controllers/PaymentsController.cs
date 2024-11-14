@@ -3,12 +3,11 @@ using DentifyBackend.Odontology.Domain.Model.Queries.Payments;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Dentist;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Payments;
-using DentifyBackend.Odontology.Interfaces.REST.Transform.Inventory;
 using DentifyBackend.Odontology.Interfaces.REST.Transform.Payments;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
+namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/payments")]

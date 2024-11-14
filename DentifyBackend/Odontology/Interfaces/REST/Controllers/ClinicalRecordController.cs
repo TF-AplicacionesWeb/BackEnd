@@ -6,7 +6,7 @@ using DentifyBackend.Odontology.Interfaces.REST.Transform.ClinicalRecordTransfor
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
+namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/clinical_records")]
