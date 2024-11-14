@@ -90,17 +90,12 @@ public class InventoryController(
         OperationId = "DeleteInventory")]
     [SwaggerResponse(200, "The product was deleted successfully")]
     [SwaggerResponse(404, "The product was not found")]
-    public async Task<IActionResult> DeleteInventory(int id, DeleteteInvenotryResource resource)
+    public async Task<IActionResult> DeleteInventory(int id)
     {
-        var getInventoryByIdQuery = new GetInventoryByIdQuery(id);
-        var existingInventory = await inventoryQueryService.Handle(getInventoryByIdQuery);
-        if (existingInventory is null) return NotFound("The specified product could not be found.");
-        var deleteInventoryCommand = DeleteInventoryCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await inventoryCommandService.Handle(deleteInventoryCommand, id);
-        if (result is null)
-            return BadRequest("The delete command could not be processed, check the provided identifier.");
-
-        var deleteInventoryResource = InventoryResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(deleteInventoryResource);
+        var deleteInventoryResource = new DeleteteInvenotryResource(id);
+        var deleteInventoryCommand =
+            DeleteInventoryCommandFromResourceAssembler.ToCommandFromResource(deleteInventoryResource);
+        await inventoryCommandService.Handle(deleteInventoryCommand);
+        return NoContent();
     }
 }

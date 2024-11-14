@@ -10,7 +10,6 @@ public class Inventory
 
     public Inventory(CreateInventoryCommand command)
     {
-        id = command.id;
         material_name = command.material_name;
         quantity = command.quantity;
         unit_price = command.unit_price;
