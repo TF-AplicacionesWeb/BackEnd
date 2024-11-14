@@ -32,22 +32,15 @@ public class ScheduleDentistCommandService(IScheduleDentistRepository scheduleDe
     }
 
 
-    public async Task<ScheduleDentist?> Handle(DeleteScheduleDentistCommand command, int id)
+    public async Task Handle(DeleteScheduleDentistCommand command)
     {
-        var schedule = await scheduleDentistRepository.FindByIdAsync(id);
+        var schedule = await scheduleDentistRepository.FindByIdAsync(command.id);
 
-        if (schedule == null) throw new InvalidOperationException("Schedule with this ID  does not exist");
+        if (schedule == null) throw new KeyNotFoundException($"Schedule dentist with ID {command.id} not found.");
 
-        try
-        {
-            scheduleDentistRepository.Remove(schedule);
-            await unitOfWork.CompleteAsync();
-        }
-        catch (DbUpdateException dbEx)
-        {
-            throw new Exception("An error occurred while deleting the schedule. Please try again.", dbEx);
-        }
+        scheduleDentistRepository.Remove(schedule);
+        
+        await unitOfWork.CompleteAsync();
 
-        return schedule;
     }
 }

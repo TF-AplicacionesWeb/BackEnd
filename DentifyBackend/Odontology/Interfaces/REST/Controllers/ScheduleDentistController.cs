@@ -73,23 +73,16 @@ public class ScheduleDentistController(
         Summary = "Delete a schedule dentist",
         Description = "Delete a schedule dentist by its identifier",
         OperationId = "DeleteScheduleDentist")]
-    [SwaggerResponse(200, "The schedule dentist was deleted successfully")]
+    [SwaggerResponse(204, "The schedule dentist was deleted successfully")]
     [SwaggerResponse(404, "The schedule dentist was not found")]
-    public async Task<IActionResult> DeleteScheduleDentist(int id, DeleteScheduleDentistResource resource)
+    public async Task<IActionResult> DeleteScheduleDentist(int id)
     {
-        var getScheduleDentistByIdQuery = new GetScheduleDentistByIdQuery(id);
-        var existingScheduleDentist = await scheduleDentistQueryService.Handle(getScheduleDentistByIdQuery);
-        if (existingScheduleDentist is null) return NotFound("The specified schedule dentist could not be found.");
-
-        var deleteScheduleDentistCommand =
-            DeleteScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await scheduleDentistCommandService.Handle(deleteScheduleDentistCommand, id);
-
-        if (result is null)
-            return BadRequest("The delete command could not be processed, check the provided identifier.");
-
-
-        var deletedScheduleDentistResource = ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(deletedScheduleDentistResource);
+        var deleteResource = new DeleteScheduleDentistResource(id);
+        
+        var deleteCommand = DeleteScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
+        
+        await scheduleDentistCommandService.Handle(deleteCommand);
+        
+        return NoContent();
     }
 }
