@@ -3,6 +3,7 @@ using DentifyBackend.Dentify.Domain.Model.Commands;
 using DentifyBackend.Dentify.Domain.Repositories;
 using DentifyBackend.Dentify.Domain.Services;
 using DentifyBackend.Shared.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentifyBackend.Dentify.Application.Internal.CommandServices;
 
@@ -29,4 +30,51 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 
         return user;
     }
+
+    public async Task<User?> Handle(UpdateUserCommand command, int id)
+    {
+        var existingById = await userRepository.FindByIdAsync(id);
+        if (existingById == null)  throw new InvalidOperationException("A user with this ID does not exist.");
+        
+        
+        existingById.SetAttributes(
+            command.username,
+            command.first_name,
+            command.last_name,
+            command.email,
+            command.phone,
+            command.company,
+            command.password,
+            command.trial
+        );
+
+        try
+        {
+            userRepository.Update(existingById);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("An error occurred while updating the user. Please try again.", dbEx);
+        }
+
+        return existingById;
+    }
+
+    public async Task Handle(DeleteUserCommand command)
+    {
+        var user = await userRepository.FindByIdAsync(command.id);
+        
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"Dentist with ID {command.id} not found.");
+        }
+
+       
+        userRepository.Remove(user);
+
+       
+        await unitOfWork.CompleteAsync();
+    }
+
 }

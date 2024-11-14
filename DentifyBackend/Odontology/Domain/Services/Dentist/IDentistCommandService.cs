@@ -9,5 +9,6 @@ public interface IDentistCommandService
 
     Task<Dentist?> Handle(UpdateDentistCommand command, int id);
 
-    Task<Dentist?> Handle(DeleteDentistCommand command, int id);
+    Task Handle(DeleteDentistCommand command);
+
 }
