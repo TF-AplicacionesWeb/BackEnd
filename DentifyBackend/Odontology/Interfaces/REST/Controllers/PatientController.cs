@@ -15,21 +15,14 @@ namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 [Tags("patients")]
 public class PatientController(IPatientCommandService userCommandService, IPatientQueryService userQueryService) : ControllerBase
 {
-    /// <summary>
-    ///     Creates a favorite source.
-    /// </summary>
-    /// <param name="resource">CreateFavoriteSourceResource resource</param>
-    /// <returns>
-    ///     A response as an action result containing the created favorite source, or bad request if the favorite source was
-    ///     not created.
-    /// </returns>
+    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Creates a patient",
         Description = "Creates a patient",
         OperationId = "CreatePatient")]
-    [SwaggerResponse(201, "The user was created", typeof(PatientResource))]
-    [SwaggerResponse(400, "The user was not created")]
+    [SwaggerResponse(201, "The patient was created", typeof(PatientResource))]
+    [SwaggerResponse(400, "The patient was not created")]
     public async Task<ActionResult> CreatePatient([FromBody] CreatePatientResource resource)
     {
         var createPatientCommand = CreatePatientCommandFromResourceAssembler.ToCommandFromResource(resource);
@@ -47,8 +40,8 @@ public class PatientController(IPatientCommandService userCommandService, IPatie
         Summary = "Get all the patients",
         Description = "Get all the patients",
         OperationId = "GetAllPatients")]
-    [SwaggerResponse(200, "Users were found", typeof(IEnumerable<PatientResource>))]
-    [SwaggerResponse(204, "Users were not found")]
+    [SwaggerResponse(200, "patients were found", typeof(IEnumerable<PatientResource>))]
+    [SwaggerResponse(204, "patients were not found")]
     public async Task<ActionResult> GetAllPatients()
     {
         var getAllPatientQuery = new GetAllPatientsQuery();
@@ -80,8 +73,8 @@ public class PatientController(IPatientCommandService userCommandService, IPatie
         Summary = "Update a patient",
         Description = "Update the personal information of an existing patient",
         OperationId = "UpdatePatient")]
-    [SwaggerResponse(200, "The user was updated successfully", typeof(PatientResource))]
-    [SwaggerResponse(404, "The user was not found")]
+    [SwaggerResponse(200, "The patient was updated successfully", typeof(PatientResource))]
+    [SwaggerResponse(404, "The patient was not found")]
     public async Task<ActionResult> UpdatePatient(int id, [FromBody] UpdatePatientResource resource)
     {
         var query = new GetPatientsByIdQuery(id);

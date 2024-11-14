@@ -2,7 +2,7 @@ using DentifyBackend.Odontology.Interfaces.REST.Resources.Patient;
 
 namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Patient;
 
-public class PatientResourceFromEntityAssembler
+public static class PatientResourceFromEntityAssembler
 {
     public static PatientResource ToResourceFromEntity(Domain.Model.Aggregates.Patient resource)
     {

@@ -3,7 +3,7 @@ using DentifyBackend.Odontology.Interfaces.REST.Resources.Patient;
 
 namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Patient;
 
-public class DeletePatientCommandFromResourceAssembler
+public static class DeletePatientCommandFromResourceAssembler
 {
     public static DeletePatientCommand ToCommandFromResource(DeletePatientResource resource)
     {
