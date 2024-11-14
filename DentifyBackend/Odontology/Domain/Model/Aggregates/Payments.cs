@@ -10,7 +10,6 @@ public class Payments
 
     public Payments(CreatePaymentsCommand command)
     {
-        id = command.id;
         amount = command.amount;
         payment_date = command.payment_date;
         user_id = command.user_id;

@@ -3,6 +3,7 @@ using DentifyBackend.Odontology.Domain.Model.Queries.Payments;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Dentist;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Payments;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.Inventory;
 using DentifyBackend.Odontology.Interfaces.REST.Transform.Payments;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -98,19 +99,12 @@ public class PaymentsController(
         OperationId = "DeletePayment")]
     [SwaggerResponse(200, "The payment was deleted successfully")]
     [SwaggerResponse(404, "The payment was not found")]
-    public async Task<IActionResult> DeletePayment(int id, DeletePaymentsResource resource)
+    public async Task<IActionResult>DeletePayment(int id)
     {
-        var getPaymentsByIdQuery = new GetPaymentsByIdQuery(id);
-        var existingPayment = await paymentsQueryService.Handle(getPaymentsByIdQuery);
-        if (existingPayment is null) return NotFound("The specified payment could not be found.");
+        var deleteResource = new DeletePaymentsResource(id);
+        var deleteCommand = DeletePaymentsCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
+        await paymentsCommandService.Handle(deleteCommand);
+        return NoContent();
 
-        var deletePaymentCommand = DeletePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await paymentsCommandService.Handle(deletePaymentCommand, id);
-
-        if (result is null)
-            return BadRequest("The delete command could not be processed, check the provided identifier.");
-
-        var deletedPaymentResource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(deletedPaymentResource);
     }
 }
