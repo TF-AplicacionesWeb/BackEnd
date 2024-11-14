@@ -66,6 +66,23 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne<Dentist>()
             .WithMany(d => d.schedules)
             .HasForeignKey(s => s.dentist_id);
+
+
+        builder.Entity<Payments>().HasKey(p => p.id);
+        builder.Entity<Payments>().Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Payments>().Property(p => p.amount).IsRequired();
+        builder.Entity<Payments>().Property(p => p.payment_date).IsRequired();
+        builder.Entity<Payments>().HasOne<User>().WithMany().HasForeignKey(p => p.user_id)
+
+        builder.Entity<Inventory>().HasKey(i => i.id);
+        builder.Entity<Inventory>().Property(i => i.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Inventory>().Property(i => i.material_name).IsRequired();
+        builder.Entity<Inventory>().Property(i => i.quantity).IsRequired();
+        builder.Entity<Inventory>().Property(i => i.unit_price).IsRequired();
+        builder.Entity<Inventory>().Property(i => i.last_updated).IsRequired();
+        builder.Entity<Inventory>().HasOne<User>().WithMany().HasForeignKey(i => i.user_id)
+
+            .OnDelete(DeleteBehavior.Cascade);
         
         
         builder.Entity<SupportMessage>().HasKey(s => s.id);

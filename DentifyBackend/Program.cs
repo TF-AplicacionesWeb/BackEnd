@@ -3,6 +3,8 @@ using DentifyBackend.Dentify.Application.Internal.QueryServices;
 using DentifyBackend.Dentify.Domain.Repositories;
 using DentifyBackend.Dentify.Domain.Services;
 using DentifyBackend.Dentify.Infrastructure.Repositories;
+using DentifyBackend.Odontology.Domain.Services.Payments;
+using DentifyBackend.Odontology.Domain.Services.Inventory;
 using DentifyBackend.Shared.Domain.Repositories;
 using DentifyBackend.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -13,6 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy", builder =>
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 // Configure Kebab Case Route Naming Convention.
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
@@ -63,9 +72,17 @@ builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
 builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
+
 builder.Services.AddScoped<ISupportMessageRepository, SupportMessageRepository>();
 builder.Services.AddScoped<ISupportMessageCommandService, SupportMessageCommandService>();
 builder.Services.AddScoped<ISupportMessageQueryService, SupportMessageQueryService>();
+
+builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddScoped<IPaymentsCommandService, PaymentsCommandService>();
+builder.Services.AddScoped<IPaymentsQueryService, PaymentsQueryService>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
+builder.Services.AddScoped<IIventoryQueryService, InventoryQueryService>();
 
 
 var app = builder.Build();
@@ -85,6 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
