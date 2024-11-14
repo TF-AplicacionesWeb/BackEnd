@@ -1,10 +1,8 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries.SupportMessage;
+using DentifyBackend.Odontology.Domain.Model.Queries.SupportMessage;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.SupportMessage;
 
 public interface ISupportMessageQueryService
 {
-    Task<SupportMessage?> Handle(GetSupportMessageByIdQuery query);
-
+    Task<Model.Aggregates.SupportMessage?> Handle(GetSupportMessageByIdQuery query);
 }

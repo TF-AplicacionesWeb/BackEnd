@@ -1,7 +1,7 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Interfaces.REST.Resources.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.ClinicalRecord;
 
-namespace DentifyBackend.Dentify.Interfaces.REST.Transform.ClinicalRecordTransform;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.ClinicalRecordTransform;
 
 public class ClinicalRecordResourceFromEntityAssembler
 {

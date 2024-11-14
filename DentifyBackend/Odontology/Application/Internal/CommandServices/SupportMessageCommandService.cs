@@ -1,11 +1,11 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Commands.SupportMessage;
-using DentifyBackend.Dentify.Domain.Repositories;
-using DentifyBackend.Dentify.Domain.Services;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Commands.SupportMessage;
+using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.SupportMessage;
 using DentifyBackend.Shared.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentifyBackend.Dentify.Application.Internal.CommandServices;
+namespace DentifyBackend.Odontology.Application.Internal.CommandServices;
 
 public class SupportMessageCommandService(ISupportMessageRepository supportMessageRepository, IUnitOfWork unitOfWork)
     : ISupportMessageCommandService

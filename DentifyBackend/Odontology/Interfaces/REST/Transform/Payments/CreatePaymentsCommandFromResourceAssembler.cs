@@ -5,6 +5,8 @@ namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Payments;
 
 public class CreatePaymentsCommandFromResourceAssembler
 {
-    public static CreatePaymentsCommand ToCommandFromResource(CreatePaymentsResource resource) =>
-        new CreatePaymentsCommand(resource.id, resource.amount, resource.payment_date, resource.user_id);
+    public static CreatePaymentsCommand ToCommandFromResource(CreatePaymentsResource resource)
+    {
+        return new CreatePaymentsCommand(resource.id, resource.amount, resource.payment_date, resource.user_id);
+    }
 }

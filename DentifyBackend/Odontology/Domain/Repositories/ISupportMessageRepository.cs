@@ -1,9 +1,8 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Shared.Domain.Repositories;
 
-namespace DentifyBackend.Dentify.Domain.Repositories;
+namespace DentifyBackend.Odontology.Domain.Repositories;
 
-public interface ISupportMessageRepository: IBaseRepository<SupportMessage>
+public interface ISupportMessageRepository : IBaseRepository<SupportMessage>
 {
-    
 }

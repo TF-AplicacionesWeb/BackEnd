@@ -1,3 +1,3 @@
-namespace DentifyBackend.Dentify.Domain.Model.Queries;
+namespace DentifyBackend.Odontology.Domain.Model.Queries.User;
 
-public record GetAllUserQuery();
+public record GetAllUserQuery;

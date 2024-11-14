@@ -1,14 +1,14 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Odontology.Domain.Model.Commands.Inventory;
+using DentifyBackend.Odontology.Domain.Repositories;
 using DentifyBackend.Odontology.Domain.Services.Inventory;
 using DentifyBackend.Shared.Domain.Repositories;
-using Humanizer;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentifyBackend.Dentify.Application.Internal.CommandServices;
+namespace DentifyBackend.Odontology.Application.Internal.CommandServices;
 
-public class InventoryCommandService(IInventoryRepository inventoryRepository, IUnitOfWork unitOfWork): IInventoryCommandService
+public class InventoryCommandService(IInventoryRepository inventoryRepository, IUnitOfWork unitOfWork)
+    : IInventoryCommandService
 {
     public async Task<Inventory?> Handle(CreateInventoryCommand command)
     {
@@ -79,6 +79,4 @@ public class InventoryCommandService(IInventoryRepository inventoryRepository, I
 
         return inventory;
     }
-    
-    
 }

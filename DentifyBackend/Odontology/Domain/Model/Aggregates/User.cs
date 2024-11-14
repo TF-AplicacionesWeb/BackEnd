@@ -1,13 +1,11 @@
-using System.Runtime.InteropServices.JavaScript;
-using DentifyBackend.Dentify.Domain.Model.Commands;
+using DentifyBackend.Odontology.Domain.Model.Commands.User;
 
-namespace DentifyBackend.Dentify.Domain.Model.Aggregates;
+namespace DentifyBackend.Odontology.Domain.Model.Aggregates;
 
 public class User
 {
     protected User()
     {
-        
         username = string.Empty;
         first_name = string.Empty;
         last_name = string.Empty;
@@ -17,8 +15,6 @@ public class User
         company = string.Empty;
         password = string.Empty;
         trial = false;
-        
-        
     }
 
     public User(CreateUserCommand command)
@@ -33,21 +29,9 @@ public class User
         password = command.password;
         trial = command.trial;
     }
-    
-    public void SetAttributes(string username, string _firstName, string _lastName, string email, string phone, string company, string password, bool trial)
-    {
-        this.username = username;
-        this.first_name = _firstName;
-        this.last_name = _lastName;
-        this.email = email;
-        this.phone = phone;
-        this.company = company;
-        this.password = password;
-        this.trial = trial;
-    }
-    
-    
-    public int id { get;}
+
+
+    public int id { get; }
     public string username { get; private set; }
     public string first_name { get; private set; }
     public string last_name { get; private set; }
@@ -56,6 +40,19 @@ public class User
     public DateTime register_date { get; private set; }
     public string company { get; private set; }
     public string password { get; private set; }
-    
+
     public bool trial { get; private set; }
+
+    public void SetAttributes(string username, string _firstName, string _lastName, string email, string phone,
+        string company, string password, bool trial)
+    {
+        this.username = username;
+        first_name = _firstName;
+        last_name = _lastName;
+        this.email = email;
+        this.phone = phone;
+        this.company = company;
+        this.password = password;
+        this.trial = trial;
+    }
 }

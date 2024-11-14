@@ -1,12 +1,13 @@
-using DentifyBackend.Dentify.Domain.Model.Commands.SupportMessage;
-using DentifyBackend.Dentify.Interfaces.REST.Resources.SupportMessage;
+using DentifyBackend.Odontology.Domain.Model.Commands.SupportMessage;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.SupportMessage;
 
-namespace DentifyBackend.Dentify.Interfaces.REST.Transform;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.SupportMessage;
 
 public class CreateSupportMessageCommandFromResourceAssembler
 {
-
-    public static CreateSupportMessageCommand toCommandFromResource(CreateSupportMessageResource resource) =>
-        new CreateSupportMessageCommand(resource.name, resource.email, resource.description,
+    public static CreateSupportMessageCommand toCommandFromResource(CreateSupportMessageResource resource)
+    {
+        return new CreateSupportMessageCommand(resource.name, resource.email, resource.description,
             resource.user_id);
+    }
 }

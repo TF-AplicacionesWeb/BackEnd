@@ -1,14 +1,14 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Odontology.Domain.Model.Commands.Payments;
+using DentifyBackend.Odontology.Domain.Repositories;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 using DentifyBackend.Shared.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentifyBackend.Dentify.Application.Internal.CommandServices;
+namespace DentifyBackend.Odontology.Application.Internal.CommandServices;
 
 public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUnitOfWork unitOfWork)
-    :IPaymentsCommandService
+    : IPaymentsCommandService
 {
     public async Task<Payments?> Handle(CreatePaymentsCommand command)
     {
@@ -38,7 +38,7 @@ public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUni
         existingPaymentsById.amount = command.amount;
         existingPaymentsById.payment_date = new DateTime();
         existingPaymentsById.user_id = command.user_id;
-        
+
         try
         {
             paymentsRepository.Update(existingPaymentsById);
@@ -57,7 +57,7 @@ public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUni
         var existingPaymentsById = await paymentsRepository.FindByIdAsync(id);
         if (existingPaymentsById == null)
             throw new InvalidOperationException("A payments with this id not exist");
-        
+
         try
         {
             paymentsRepository.Remove(existingPaymentsById);

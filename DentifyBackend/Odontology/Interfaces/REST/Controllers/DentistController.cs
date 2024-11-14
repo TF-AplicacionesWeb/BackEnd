@@ -1,12 +1,12 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Queries;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Interfaces.REST.Resources;
-using DentifyBackend.Dentify.Interfaces.REST.Transform;
+using DentifyBackend.Odontology.Domain.Model.Queries.Dentist;
+using DentifyBackend.Odontology.Domain.Services.Dentist;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.Dentist;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.Dentist;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
+namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/dentists")]
@@ -14,9 +14,8 @@ namespace DentifyBackend.Dentify.Interfaces.REST;
 [Tags("Dentists")]
 public class DentistController(
     IDentistCommandService dentistCommandService,
-    IDentistQueryService dentistQueryService): ControllerBase
+    IDentistQueryService dentistQueryService) : ControllerBase
 {
-    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a dentist",
@@ -29,10 +28,11 @@ public class DentistController(
         var createDentistCommand = CreateDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await dentistCommandService.Handle(createDentistCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetDentistById), new {id = result.id }, DentistResourceFromEntityAssembler.ToResourceFromEntity(result));
+        return CreatedAtAction(nameof(GetDentistById), new { result.id },
+            DentistResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
-    
-    
+
+
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Get a dentist by id",
@@ -48,8 +48,8 @@ public class DentistController(
         var resource = DentistResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    
-    
+
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all the dentists",
@@ -65,8 +65,8 @@ public class DentistController(
         var resources = result.Select(DentistResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(resources);
     }
-    
-    
+
+
     [HttpPut("{id}")]
     [SwaggerOperation(
         Summary = "Update a dentist",
@@ -78,22 +78,19 @@ public class DentistController(
     {
         var getDentistByIdQuery = new GetDentistByIdQuery(id);
         var existingDentist = await dentistQueryService.Handle(getDentistByIdQuery);
-        if (existingDentist is null)
-        {
-            return NotFound("The specified dentist could not be found.");
-        }
-        
+        if (existingDentist is null) return NotFound("The specified dentist could not be found.");
+
         var updateDentistCommand = UpdateDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await dentistCommandService.Handle(updateDentistCommand, id);
-        
-        if (result is null) 
+
+        if (result is null)
             return BadRequest("The update command could not be processed, check the provided data.");
-        
+
         var updatedDentistResource = DentistResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(updatedDentistResource);
     }
-    
-    
+
+
     [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a dentist",
@@ -104,11 +101,11 @@ public class DentistController(
     public async Task<IActionResult> DeleteDentist(int id)
     {
         var deleteResource = new DeleteDentistResource(id);
-        
+
         var deleteCommand = DeleteDentistCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
-        
+
         await dentistCommandService.Handle(deleteCommand);
-        
+
         return NoContent();
     }
 }

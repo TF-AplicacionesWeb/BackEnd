@@ -1,12 +1,12 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Queries.ClinicalRecord;
-using DentifyBackend.Dentify.Domain.Services.ClinicalRecordService;
-using DentifyBackend.Dentify.Interfaces.REST.Resources.ClinicalRecord;
-using DentifyBackend.Dentify.Interfaces.REST.Transform.ClinicalRecordTransform;
+using DentifyBackend.Odontology.Domain.Model.Queries.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Services.ClinicalRecordService;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.ClinicalRecord;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.ClinicalRecordTransform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
 
 [ApiController]
 [Route("api/clinical_records")]
@@ -14,10 +14,8 @@ namespace DentifyBackend.Dentify.Interfaces.REST;
 [Tags("Clinical Records")]
 public class ClinicalRecordController(
     IClinicalRecordCommandService clinicalRecordCommandService,
-    IClinicalRecordQueryService clinicalRecordQueryService): ControllerBase
+    IClinicalRecordQueryService clinicalRecordQueryService) : ControllerBase
 {
-    
-    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a clinical record",
@@ -27,14 +25,15 @@ public class ClinicalRecordController(
     [SwaggerResponse(400, "The clinical record was not created")]
     public async Task<ActionResult> CreateClinicalRecord([FromBody] CreateClinicalRecordResource resource)
     {
-        var createClinicalRecordCommand = CreateClinicalRecordCommandFromResourceAssembler.toCommandFromResource(resource);
+        var createClinicalRecordCommand =
+            CreateClinicalRecordCommandFromResourceAssembler.toCommandFromResource(resource);
         var result = await clinicalRecordCommandService.Handle(createClinicalRecordCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetClinicalRecordById), new {id = result.id }, ClinicalRecordResourceFromEntityAssembler.toResourceFromEntity(result));
+        return CreatedAtAction(nameof(GetClinicalRecordById), new { result.id },
+            ClinicalRecordResourceFromEntityAssembler.toResourceFromEntity(result));
     }
-    
-    
-    
+
+
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Get a clinical record by id",
@@ -50,8 +49,8 @@ public class ClinicalRecordController(
         var resource = ClinicalRecordResourceFromEntityAssembler.toResourceFromEntity(result);
         return Ok(resource);
     }
-    
-    
+
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all the clinical records",

@@ -1,11 +1,11 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries;
-using DentifyBackend.Dentify.Domain.Repositories;
-using DentifyBackend.Dentify.Domain.Services;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Queries.Dentist;
+using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.Dentist;
 
-namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
+namespace DentifyBackend.Odontology.Application.Internal.QueryServices;
 
-public class DentistQueryService(IDentistRepository dentistRepository) 
+public class DentistQueryService(IDentistRepository dentistRepository)
     : IDentistQueryService
 {
     public async Task<IEnumerable<Dentist>> Handle(GetAllDentistsQuery query)

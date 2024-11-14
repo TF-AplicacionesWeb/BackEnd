@@ -1,16 +1,13 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Interfaces.REST.Resources;
 using DentifyBackend.Odontology.Domain.Model.Queries.Payments;
 using DentifyBackend.Odontology.Domain.Services.Payments;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.Dentist;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Payments;
 using DentifyBackend.Odontology.Interfaces.REST.Transform.Payments;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
-
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
 
 [ApiController]
 [Route("api/payments")]
@@ -19,7 +16,7 @@ namespace DentifyBackend.Dentify.Interfaces.REST;
 public class PaymentsController(
     IPaymentsCommandService paymentsCommandService,
     IPaymentsQueryService paymentsQueryService
-    ): ControllerBase
+) : ControllerBase
 {
     [HttpPost]
     [SwaggerOperation(
@@ -33,7 +30,7 @@ public class PaymentsController(
         var createPaymentsCommand = CreatePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await paymentsCommandService.Handle(createPaymentsCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetPaymentsById), new { id = result.id },
+        return CreatedAtAction(nameof(GetPaymentsById), new { result.id },
             PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
@@ -52,8 +49,8 @@ public class PaymentsController(
         var resource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    
-     
+
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all the Payments",
@@ -69,7 +66,7 @@ public class PaymentsController(
         var resources = result.Select(PaymentsResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(resources);
     }
-    
+
     [HttpPut("{id}")]
     [SwaggerOperation(
         Summary = "Update a payment",
@@ -81,22 +78,19 @@ public class PaymentsController(
     {
         var getPaymentsByIdQuery = new GetPaymentsByIdQuery(id);
         var existingPayment = await paymentsQueryService.Handle(getPaymentsByIdQuery);
-        if (existingPayment is null)
-        {
-            return NotFound("The specified payment could not be found.");
-        }
-    
+        if (existingPayment is null) return NotFound("The specified payment could not be found.");
+
         var updatePaymentCommand = UpdatePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await paymentsCommandService.Handle(updatePaymentCommand, id);
-    
-        if (result is null) 
+
+        if (result is null)
             return BadRequest("The update command could not be processed, check the provided data.");
-    
+
         var updatedPaymentResource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(updatedPaymentResource);
     }
-    
-    
+
+
     [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a payment",
@@ -108,20 +102,15 @@ public class PaymentsController(
     {
         var getPaymentsByIdQuery = new GetPaymentsByIdQuery(id);
         var existingPayment = await paymentsQueryService.Handle(getPaymentsByIdQuery);
-        if (existingPayment is null)
-        {
-            return NotFound("The specified payment could not be found.");
-        }
-    
+        if (existingPayment is null) return NotFound("The specified payment could not be found.");
+
         var deletePaymentCommand = DeletePaymentsCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await paymentsCommandService.Handle(deletePaymentCommand, id);
-    
-        if (result is null) 
+
+        if (result is null)
             return BadRequest("The delete command could not be processed, check the provided identifier.");
-    
+
         var deletedPaymentResource = PaymentsResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(deletedPaymentResource);
     }
-
-    
 }

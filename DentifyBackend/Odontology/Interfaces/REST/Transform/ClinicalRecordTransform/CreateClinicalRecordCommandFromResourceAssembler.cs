@@ -1,7 +1,7 @@
-using DentifyBackend.Dentify.Domain.Model.Commands.ClinicalRecord;
-using DentifyBackend.Dentify.Interfaces.REST.Resources.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Model.Commands.ClinicalRecord;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.ClinicalRecord;
 
-namespace DentifyBackend.Dentify.Interfaces.REST.Transform.ClinicalRecordTransform;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.ClinicalRecordTransform;
 
 public class CreateClinicalRecordCommandFromResourceAssembler
 {

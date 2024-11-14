@@ -1,17 +1,12 @@
-using DentifyBackend.Dentify.Domain.Model.Commands.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Model.Commands.ClinicalRecord;
 
-namespace DentifyBackend.Dentify.Domain.Model.Aggregates;
+namespace DentifyBackend.Odontology.Domain.Model.Aggregates;
 
 public class ClinicalRecord
 {
-    public int id { get; private set; }
-    public string medical_history { get; private set; }
-    public string record_date { get; private set; }
-    public string diagnosis { get; private set; }
-    public string treatment { get; private set; }
-    public int user_id { get; private set; }
-    
-    public ClinicalRecord() {}
+    public ClinicalRecord()
+    {
+    }
 
     public ClinicalRecord(CreateClinicalRecordCommand command)
     {
@@ -22,4 +17,11 @@ public class ClinicalRecord
         treatment = command.treatment;
         user_id = command.user_id;
     }
+
+    public int id { get; private set; }
+    public string medical_history { get; private set; }
+    public string record_date { get; private set; }
+    public string diagnosis { get; private set; }
+    public string treatment { get; private set; }
+    public int user_id { get; private set; }
 }

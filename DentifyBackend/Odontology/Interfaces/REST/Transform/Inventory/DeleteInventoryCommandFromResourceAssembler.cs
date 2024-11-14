@@ -5,6 +5,8 @@ namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Inventory;
 
 public class DeleteInventoryCommandFromResourceAssembler
 {
-    public static DeleteInventoryCommand ToCommandFromResource(DeleteteInvenotryResource resource) =>
-        new DeleteInventoryCommand(resource.id);
+    public static DeleteInventoryCommand ToCommandFromResource(DeleteteInvenotryResource resource)
+    {
+        return new DeleteInventoryCommand(resource.id);
+    }
 }

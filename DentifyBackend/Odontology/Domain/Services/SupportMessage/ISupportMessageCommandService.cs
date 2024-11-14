@@ -1,9 +1,8 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Commands.SupportMessage;
+using DentifyBackend.Odontology.Domain.Model.Commands.SupportMessage;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.SupportMessage;
 
 public interface ISupportMessageCommandService
 {
-    Task<SupportMessage?> Handle(CreateSupportMessageCommand command);
+    Task<Model.Aggregates.SupportMessage?> Handle(CreateSupportMessageCommand command);
 }

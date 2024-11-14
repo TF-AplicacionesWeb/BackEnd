@@ -1,11 +1,10 @@
-using DentifyBackend.Dentify.Interfaces.REST.Resources.SupportMessage;
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.SupportMessage;
 
-namespace DentifyBackend.Dentify.Interfaces.REST.Transform;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.SupportMessage;
 
 public class SupportMessageFromEntityAssembler
 {
-    public static SupportMessageResource toResourceFromEntity(SupportMessage entity)
+    public static SupportMessageResource toResourceFromEntity(Domain.Model.Aggregates.SupportMessage entity)
     {
         return new SupportMessageResource(entity.id, entity.name, entity.email,
             entity.description, entity.user_id);

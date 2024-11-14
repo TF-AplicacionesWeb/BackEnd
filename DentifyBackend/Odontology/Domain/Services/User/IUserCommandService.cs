@@ -1,13 +1,12 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Commands;
+using DentifyBackend.Odontology.Domain.Model.Commands.User;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.User;
 
 public interface IUserCommandService
 {
-    Task<User?> Handle(CreateUserCommand request);
-    
-    Task<User?> Handle(UpdateUserCommand command, int id);
+    Task<Model.Aggregates.User?> Handle(CreateUserCommand request);
+
+    Task<Model.Aggregates.User?> Handle(UpdateUserCommand command, int id);
 
     Task Handle(DeleteUserCommand command);
 }
