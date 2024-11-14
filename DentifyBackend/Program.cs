@@ -14,6 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy", builder =>
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 // Configure Kebab Case Route Naming Convention.
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
@@ -82,6 +89,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

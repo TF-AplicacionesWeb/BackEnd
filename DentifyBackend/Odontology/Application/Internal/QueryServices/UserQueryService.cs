@@ -9,9 +9,9 @@ namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
 public class UserQueryService(IUserRepository userRepository) : IUserQueryService
 {
     
-    public async Task<IEnumerable<User>> Handle(GetAllUsersByUsernameQuery query)
+    public async Task<IEnumerable<User>> Handle(GetAllUserQuery query)
     {
-        return await userRepository.FindByUsernameAsync(query.username);
+        return await userRepository.ListAsync();
     }
     
     public async Task<User?> Handle(GetUserByUsernameAndPasswordQuery query)

@@ -75,22 +75,21 @@ public class DentistCommandService(IDentistRepository dentistRepository, IUnitOf
         return existingDentistById;
     }
 
-    public async Task<Dentist?> Handle(DeleteDentistCommand command, int id)
+    public async Task Handle(DeleteDentistCommand command)
     {
-        var dentist = await dentistRepository.FindByIdAsync(id);
-
-        if (dentist == null) throw new InvalidOperationException("Dentist with this ID  does not exist");
-
-        try
+        var dentist = await dentistRepository.FindByIdAsync(command.id);
+        
+        if (dentist == null)
         {
-            dentistRepository.Remove(dentist);
-            await unitOfWork.CompleteAsync();
-        }
-        catch (DbUpdateException dbEx)
-        {
-            throw new Exception("An error occurred while deleting the dentist. Please try again.", dbEx);
+            throw new KeyNotFoundException($"Dentist with ID {command.id} not found.");
         }
 
-        return dentist;
+        // Eliminar el dentista
+        dentistRepository.Remove(dentist);
+
+        // Confirmar los cambios en la base de datos
+        await unitOfWork.CompleteAsync();
     }
+
+    
 }

@@ -28,10 +28,22 @@ public class User
         last_name = command.last_name;
         email = command.email;
         phone = command.phone;
-        register_date = command.register_date;
+        register_date = DateTime.Now;
         company = command.company;
         password = command.password;
         trial = command.trial;
+    }
+    
+    public void SetAttributes(string username, string _firstName, string _lastName, string email, string phone, string company, string password, bool trial)
+    {
+        this.username = username;
+        this.first_name = _firstName;
+        this.last_name = _lastName;
+        this.email = email;
+        this.phone = phone;
+        this.company = company;
+        this.password = password;
+        this.trial = trial;
     }
     
     
