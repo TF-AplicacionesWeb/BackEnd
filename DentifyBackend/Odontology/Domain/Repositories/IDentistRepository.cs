@@ -1,7 +1,7 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Shared.Domain.Repositories;
 
-namespace DentifyBackend.Dentify.Domain.Repositories;
+namespace DentifyBackend.Odontology.Domain.Repositories;
 
 public interface IDentistRepository : IBaseRepository<Dentist>
 {

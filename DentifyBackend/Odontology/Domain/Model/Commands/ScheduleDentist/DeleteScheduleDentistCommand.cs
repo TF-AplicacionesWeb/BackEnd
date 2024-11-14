@@ -1,3 +1,3 @@
-namespace DentifyBackend.Dentify.Domain.Model.Commands;
+namespace DentifyBackend.Odontology.Domain.Model.Commands.ScheduleDentist;
 
 public record DeleteScheduleDentistCommand(int id);

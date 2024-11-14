@@ -1,4 +1,7 @@
-namespace DentifyBackend.Dentify.Interfaces.REST.Resources.SupportMessage;
+namespace DentifyBackend.Odontology.Interfaces.REST.Resources.SupportMessage;
 
-public record CreateSupportMessageResource(string name, string email, 
-    string description, int user_id);
+public record CreateSupportMessageResource(
+    string name,
+    string email,
+    string description,
+    int user_id);

@@ -1,12 +1,12 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Odontology.Domain.Model.Queries.Payments;
+using DentifyBackend.Odontology.Domain.Repositories;
 using DentifyBackend.Odontology.Domain.Services.Payments;
 
-namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
+namespace DentifyBackend.Odontology.Application.Internal.QueryServices;
 
 public class PaymentsQueryService(IPaymentsRepository paymentsRepository)
-    :IPaymentsQueryService
+    : IPaymentsQueryService
 {
     public async Task<IEnumerable<Payments>> Handle(GetAllPaymentsQuery query)
     {

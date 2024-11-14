@@ -1,10 +1,9 @@
 using DentifyBackend.Odontology.Domain.Model.Queries.Inventory;
 
 namespace DentifyBackend.Odontology.Domain.Services.Inventory;
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
 
 public interface IIventoryQueryService
 {
-    Task<IEnumerable<Inventory>> Handle(GetAllInventoryQuery query);
-    Task<Inventory?> Handle(GetInventoryByIdQuery query);
+    Task<IEnumerable<Model.Aggregates.Inventory>> Handle(GetAllInventoryQuery query);
+    Task<Model.Aggregates.Inventory?> Handle(GetInventoryByIdQuery query);
 }

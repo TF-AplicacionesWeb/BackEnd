@@ -1,45 +1,44 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Queries;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Interfaces.REST.Resources;
-using DentifyBackend.Dentify.Interfaces.REST.Transform;
+using DentifyBackend.Odontology.Domain.Model.Queries.User;
+using DentifyBackend.Odontology.Domain.Services.User;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.User;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.User;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
-
+namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/users")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("users")]
-public class UserController(IUserCommandService userCommandService, IUserQueryService userQueryService): ControllerBase
+public class UserController(IUserCommandService userCommandService, IUserQueryService userQueryService) : ControllerBase
 {
     /// <summary>
-    /// Creates a favorite source. 
+    ///     Creates a favorite source.
     /// </summary>
     /// <param name="resource">CreateFavoriteSourceResource resource</param>
     /// <returns>
-    /// A response as an action result containing the created favorite source, or bad request if the favorite source was not created.
+    ///     A response as an action result containing the created favorite source, or bad request if the favorite source was
+    ///     not created.
     /// </returns>
     [HttpPost]
     [SwaggerOperation(
         Summary = "Creates a user",
         Description = "Creates a user",
-        OperationId = "CreateFavoriteSource")]
+        OperationId = "CreateUser")]
     [SwaggerResponse(201, "The user was created", typeof(UserResource))]
     [SwaggerResponse(400, "The user was not created")]
-    public async Task<ActionResult> CreateFavoriteSource([FromBody] CreateUserResource resource)
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserResource resource)
     {
         var createUserCommand = CreateUserCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await userCommandService.Handle(createUserCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetUserById), new { id = result.id }, UserResourceFromEntityAssembler.ToResourceFromEntity(result));
+        return CreatedAtAction(nameof(GetUserById), new { result.id },
+            UserResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
-    
-    
-    
-    
+
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all the users",
@@ -55,8 +54,8 @@ public class UserController(IUserCommandService userCommandService, IUserQuerySe
         var resources = result.Select(UserResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(resources);
     }
-    
-    
+
+
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Gets a user by id",
@@ -72,7 +71,7 @@ public class UserController(IUserCommandService userCommandService, IUserQuerySe
         var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    
+
     [HttpPut("{id}")]
     [SwaggerOperation(
         Summary = "Update a user",
@@ -84,21 +83,18 @@ public class UserController(IUserCommandService userCommandService, IUserQuerySe
     {
         var getUserByIdQuery = new GetUserByIdQuery(id);
         var existingUser = await userQueryService.Handle(getUserByIdQuery);
-        if (existingUser is null)
-        {
-            return NotFound("The specified user could not be found.");
-        }
-        
+        if (existingUser is null) return NotFound("The specified user could not be found.");
+
         var updateUserCommand = UpdateUserCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await userCommandService.Handle(updateUserCommand, id);
-        
-        if (result is null) 
+
+        if (result is null)
             return BadRequest("The update command could not be processed, check the provided data.");
-        
+
         var updatedDentistResource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(updatedDentistResource);
     }
-    
+
     [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a user",
@@ -109,11 +105,11 @@ public class UserController(IUserCommandService userCommandService, IUserQuerySe
     public async Task<IActionResult> DeleteUser(int id)
     {
         var deleteResource = new DeleteUserResource(id);
-        
+
         var deleteCommand = DeleteUserCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
-        
+
         await userCommandService.Handle(deleteCommand);
-        
+
         return NoContent();
     }
 }

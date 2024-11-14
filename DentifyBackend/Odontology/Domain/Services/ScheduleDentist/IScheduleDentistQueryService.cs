@@ -1,11 +1,9 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries;
+using DentifyBackend.Odontology.Domain.Model.Queries.ScheduleDentist;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.ScheduleDentist;
 
 public interface IScheduleDentistQueryService
 {
-    Task<IEnumerable<ScheduleDentist>> Handle(GetAllSchedulesDentistsQuery query);
-    Task<ScheduleDentist?> Handle(GetScheduleDentistByIdQuery query);
-
+    Task<IEnumerable<Model.Aggregates.ScheduleDentist>> Handle(GetAllSchedulesDentistsQuery query);
+    Task<Model.Aggregates.ScheduleDentist?> Handle(GetScheduleDentistByIdQuery query);
 }

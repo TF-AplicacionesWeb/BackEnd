@@ -1,7 +1,7 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Commands.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Commands.ClinicalRecord;
 
-namespace DentifyBackend.Dentify.Domain.Services.ClinicalRecordService;
+namespace DentifyBackend.Odontology.Domain.Services.ClinicalRecordService;
 
 public interface IClinicalRecordCommandService
 {

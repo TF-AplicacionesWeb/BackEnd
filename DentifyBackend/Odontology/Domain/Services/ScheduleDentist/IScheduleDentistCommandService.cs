@@ -1,11 +1,10 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Commands;
+using DentifyBackend.Odontology.Domain.Model.Commands.ScheduleDentist;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.ScheduleDentist;
 
 public interface IScheduleDentistCommandService
 {
-    Task<ScheduleDentist?> Handle(CreateScheduleDentistCommand command);
-    
-    Task<ScheduleDentist?> Handle(DeleteScheduleDentistCommand command, int id);
+    Task<Model.Aggregates.ScheduleDentist?> Handle(CreateScheduleDentistCommand command);
+
+    Task<Model.Aggregates.ScheduleDentist?> Handle(DeleteScheduleDentistCommand command, int id);
 }

@@ -1,13 +1,12 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries;
-using DentifyBackend.Dentify.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Odontology.Domain.Model.Queries.Inventory;
+using DentifyBackend.Odontology.Domain.Repositories;
 using DentifyBackend.Odontology.Domain.Services.Inventory;
 
-namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
+namespace DentifyBackend.Odontology.Application.Internal.QueryServices;
 
 public class InventoryQueryService(IInventoryRepository inventoryRepository)
-    :IIventoryQueryService
+    : IIventoryQueryService
 {
     public async Task<IEnumerable<Inventory>> Handle(GetAllInventoryQuery query)
     {

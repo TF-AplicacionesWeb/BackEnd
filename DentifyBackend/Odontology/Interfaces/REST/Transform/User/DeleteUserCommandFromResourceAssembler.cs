@@ -1,10 +1,12 @@
-using DentifyBackend.Dentify.Domain.Model.Commands;
-using DentifyBackend.Dentify.Interfaces.REST.Resources;
+using DentifyBackend.Odontology.Domain.Model.Commands.User;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.User;
 
-namespace DentifyBackend.Dentify.Interfaces.REST.Transform;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.User;
 
 public class DeleteUserCommandFromResourceAssembler
 {
-    public static DeleteUserCommand ToCommandFromResource(DeleteUserResource resource) =>
-        new DeleteUserCommand(resource.id);
+    public static DeleteUserCommand ToCommandFromResource(DeleteUserResource resource)
+    {
+        return new DeleteUserCommand(resource.id);
+    }
 }

@@ -1,11 +1,11 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Repositories;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Domain.Model.Queries.SupportMessage;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Queries.SupportMessage;
+using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.SupportMessage;
 
-namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
+namespace DentifyBackend.Odontology.Application.Internal.QueryServices;
 
-public class SupportMessageQueryService(ISupportMessageRepository supportMessageRepository) 
+public class SupportMessageQueryService(ISupportMessageRepository supportMessageRepository)
     : ISupportMessageQueryService
 {
     public async Task<SupportMessage?> Handle(GetSupportMessageByIdQuery query)

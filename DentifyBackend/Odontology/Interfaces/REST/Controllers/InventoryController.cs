@@ -1,5 +1,4 @@
 using System.Net.Mime;
-using DentifyBackend.Odontology.Domain.Model.Commands.Inventory;
 using DentifyBackend.Odontology.Domain.Model.Queries.Inventory;
 using DentifyBackend.Odontology.Domain.Services.Inventory;
 using DentifyBackend.Odontology.Interfaces.REST.Resources.Inventory;
@@ -7,16 +6,16 @@ using DentifyBackend.Odontology.Interfaces.REST.Transform.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
 
 [ApiController]
 [Route("api/inventory")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Inventory")]
-public class InventoryController(IInventoryCommandService inventoryCommandService, 
-    IIventoryQueryService inventoryQueryService): ControllerBase
+public class InventoryController(
+    IInventoryCommandService inventoryCommandService,
+    IIventoryQueryService inventoryQueryService) : ControllerBase
 {
-    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a product",
@@ -29,7 +28,7 @@ public class InventoryController(IInventoryCommandService inventoryCommandServic
         var createInventoryCommand = CreateInventoryCommandFromResourceAssembler.ToCommamdFromResource(resource);
         var result = await inventoryCommandService.Handle(createInventoryCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetInventoryById), new { id = result.id },
+        return CreatedAtAction(nameof(GetInventoryById), new { result.id },
             InventoryResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
@@ -98,13 +97,10 @@ public class InventoryController(IInventoryCommandService inventoryCommandServic
         if (existingInventory is null) return NotFound("The specified product could not be found.");
         var deleteInventoryCommand = DeleteInventoryCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await inventoryCommandService.Handle(deleteInventoryCommand, id);
-        if (result is null) 
-        return BadRequest("The delete command could not be processed, check the provided identifier.");
+        if (result is null)
+            return BadRequest("The delete command could not be processed, check the provided identifier.");
 
         var deleteInventoryResource = InventoryResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(deleteInventoryResource);
     }
-    
-    
-    
 }

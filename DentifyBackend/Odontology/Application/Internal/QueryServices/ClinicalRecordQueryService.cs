@@ -1,11 +1,11 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries.ClinicalRecord;
-using DentifyBackend.Dentify.Domain.Repositories;
-using DentifyBackend.Dentify.Domain.Services.ClinicalRecordService;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Queries.ClinicalRecord;
+using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.ClinicalRecordService;
 
-namespace DentifyBackend.Dentify.Application.Internal.QueryServices;
+namespace DentifyBackend.Odontology.Application.Internal.QueryServices;
 
-public class ClinicalRecordQueryService(IClinicalRecordRepository clinicalRecordRepository) 
+public class ClinicalRecordQueryService(IClinicalRecordRepository clinicalRecordRepository)
     : IClinicalRecordQueryService
 {
     public async Task<IEnumerable<ClinicalRecord>> Handle(GetAllClinicalRecordsQuery query)

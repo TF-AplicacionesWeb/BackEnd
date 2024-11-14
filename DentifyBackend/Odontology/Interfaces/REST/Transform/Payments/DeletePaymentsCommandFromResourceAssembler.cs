@@ -5,6 +5,8 @@ namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Payments;
 
 public class DeletePaymentsCommandFromResourceAssembler
 {
-    public static DeletePaymentsCommand ToCommandFromResource(DeletePaymentsResource resource) =>
-        new DeletePaymentsCommand(resource.id);
+    public static DeletePaymentsCommand ToCommandFromResource(DeletePaymentsResource resource)
+    {
+        return new DeletePaymentsCommand(resource.id);
+    }
 }

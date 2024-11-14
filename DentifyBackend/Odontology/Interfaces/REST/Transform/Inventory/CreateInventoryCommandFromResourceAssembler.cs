@@ -5,7 +5,9 @@ namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Inventory;
 
 public class CreateInventoryCommandFromResourceAssembler
 {
-    public static CreateInventoryCommand ToCommamdFromResource(CreateInventoryResource resource) =>
-        new CreateInventoryCommand(resource.id, resource.material_name, resource.quantity,
+    public static CreateInventoryCommand ToCommamdFromResource(CreateInventoryResource resource)
+    {
+        return new CreateInventoryCommand(resource.id, resource.material_name, resource.quantity,
             resource.unit_price, resource.last_updated, resource.user_id);
+    }
 }

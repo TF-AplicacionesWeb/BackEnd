@@ -1,19 +1,20 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Queries.SupportMessage;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Interfaces.REST.Resources.SupportMessage;
-using DentifyBackend.Dentify.Interfaces.REST.Transform;
+using DentifyBackend.Odontology.Domain.Model.Queries.SupportMessage;
+using DentifyBackend.Odontology.Domain.Services.SupportMessage;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.SupportMessage;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.SupportMessage;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
+namespace DentifyBackend.Odontology.Interfaces.REST.Transform.Controllers;
 
 [ApiController]
 [Route("api/support-message")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Support Message")]
-public class SupportMessageController(ISupportMessageCommandService supportMessageCommandService,
-    ISupportMessageQueryService supportMessageQueryService): ControllerBase
+public class SupportMessageController(
+    ISupportMessageCommandService supportMessageCommandService,
+    ISupportMessageQueryService supportMessageQueryService) : ControllerBase
 {
     [HttpPost]
     [SwaggerOperation(
@@ -28,10 +29,11 @@ public class SupportMessageController(ISupportMessageCommandService supportMessa
             CreateSupportMessageCommandFromResourceAssembler.toCommandFromResource(resource);
         var result = await supportMessageCommandService.Handle(createSupportMessageCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetSupportMessageById), new {id = result.id }, SupportMessageFromEntityAssembler.toResourceFromEntity(result));    
+        return CreatedAtAction(nameof(GetSupportMessageById), new { result.id },
+            SupportMessageFromEntityAssembler.toResourceFromEntity(result));
     }
-    
-    
+
+
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Get a support message by id",
@@ -47,5 +49,4 @@ public class SupportMessageController(ISupportMessageCommandService supportMessa
         var resource = SupportMessageFromEntityAssembler.toResourceFromEntity(result);
         return Ok(resource);
     }
-    
 }

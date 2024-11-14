@@ -1,4 +1,4 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -72,7 +72,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Payments>().Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Payments>().Property(p => p.amount).IsRequired();
         builder.Entity<Payments>().Property(p => p.payment_date).IsRequired();
-        builder.Entity<Payments>().HasOne<User>().WithMany().HasForeignKey(p => p.user_id)
+        builder.Entity<Payments>().HasOne<User>().WithMany().HasForeignKey(p => p.user_id);
 
         builder.Entity<Inventory>().HasKey(i => i.id);
         builder.Entity<Inventory>().Property(i => i.id).IsRequired().ValueGeneratedOnAdd();
@@ -97,6 +97,29 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey(c => c.user_id)     
             .OnDelete(DeleteBehavior.Cascade);
         
+        
+        builder.Entity<Patient>().HasKey(p => p.id);
+        builder.Entity<Patient>().Property(p => p.id).IsRequired();
+        builder.Entity<Patient>().Property(p => p.clinical_record_id).IsRequired();
+        builder.Entity<Patient>()
+            .HasOne<ClinicalRecord>()               
+            .WithMany()         
+            .HasForeignKey(s => s.clinical_record_id)     
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<Patient>().Property(p => p.first_name).IsRequired();
+        builder.Entity<Patient>().Property(p => p.last_name).IsRequired();
+        builder.Entity<Patient>().Property(p => p.email).IsRequired();
+        builder.Entity<Patient>().Property(p => p.age).IsRequired();
+        builder.Entity<Patient>().Property(p => p.medical_history).IsRequired();
+        builder.Entity<Patient>().Property(p => p.birth_date).IsRequired();
+        builder.Entity<Patient>().Property(p => p.appointment_id).IsRequired();
+        builder.Entity<Patient>().Property(p => p.user_id).IsRequired();
+        builder.Entity<Patient>()
+            .HasOne<User>()               
+            .WithMany()         
+            .HasForeignKey(s => s.user_id)     
+            .OnDelete(DeleteBehavior.Cascade);
         
 
         builder.Entity<SupportMessage>().HasKey(s => s.id);
