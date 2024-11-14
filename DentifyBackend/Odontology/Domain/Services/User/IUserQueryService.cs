@@ -6,7 +6,7 @@ namespace DentifyBackend.Dentify.Domain.Services;
 
 public interface IUserQueryService
 {
-    Task<IEnumerable<User>> Handle(GetAllUsersByUsernameQuery query);
+    Task<IEnumerable<User>> Handle(GetAllUserQuery query);
     Task<User?> Handle(GetUserByUsernameAndPasswordQuery query);
     Task<User?> Handle(GetUserByIdQuery query);
 }

@@ -19,4 +19,16 @@ public class UserRepository(AppDbContext context) : BaseRepository<User>(context
     {
         return await Context.Set<User>().FirstOrDefaultAsync(f => f.username == username && f.password == password);
     }
+
+    public async Task<User?> FindByEmailAsync(string email)
+    {
+        return await Context.Set<User>().FirstOrDefaultAsync(
+            user => user.email == email);
+    }
+
+    public async Task<User?> FindByPhone(string phone)
+    {
+        return await Context.Set<User>().FirstOrDefaultAsync(
+            user => user.phone == phone);
+    }
 }
