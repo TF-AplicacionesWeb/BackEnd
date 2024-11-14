@@ -6,5 +6,5 @@ public interface IScheduleDentistCommandService
 {
     Task<Model.Aggregates.ScheduleDentist?> Handle(CreateScheduleDentistCommand command);
 
-    Task<Model.Aggregates.ScheduleDentist?> Handle(DeleteScheduleDentistCommand command, int id);
+    Task Handle(DeleteScheduleDentistCommand command);
 }
