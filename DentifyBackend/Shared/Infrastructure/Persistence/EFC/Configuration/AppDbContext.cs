@@ -133,6 +133,28 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey(s => s.user_id)     
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Entity<Appointment>().HasKey(s => s.id);
+        builder.Entity<Appointment>().Property(s => s.id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Appointment>()
+            .HasOne<Dentist>()
+            .WithMany()
+            .HasForeignKey(a => a.dentist_dni)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<Appointment>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(a => a.user_id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Appointment>().Property(s => s.appointment_date).IsRequired();
+        builder.Entity<Appointment>().Property(s => s.reason).IsRequired();
+        builder.Entity<Appointment>().Property(s => s.completed).IsRequired();
+        builder.Entity<Appointment>().Property(s => s.reminder_sent).IsRequired();
+        builder.Entity<Appointment>().Property(s => s.duration_minutes).IsRequired();
+        builder.Entity<Appointment>().Property(s => s.payment_status).IsRequired();
+        
+
         builder.UseSnakeCaseNamingConvention();
     }
 }
