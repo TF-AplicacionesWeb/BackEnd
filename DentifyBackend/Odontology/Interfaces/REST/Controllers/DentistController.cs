@@ -57,10 +57,10 @@ public class DentistController(
         OperationId = "GetAllDentists")]
     [SwaggerResponse(200, "Dentists were found", typeof(IEnumerable<DentistResource>))]
     [SwaggerResponse(204, "Dentists were not found")]
-    public async Task<ActionResult> GetAllMovies()
+    public async Task<ActionResult> GetAllDentists()
     {
-        var getAllMoviesQuery = new GetAllDentistsQuery();
-        var result = await dentistQueryService.Handle(getAllMoviesQuery);
+        var getAllDentistsQuery = new GetAllDentistsQuery();
+        var result = await dentistQueryService.Handle(getAllDentistsQuery);
         if (!result.Any()) return NoContent();
         var resources = result.Select(DentistResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(resources);
@@ -99,25 +99,16 @@ public class DentistController(
         Summary = "Delete a dentist",
         Description = "Delete a dentist by its identifier",
         OperationId = "DeleteDentist")]
-    [SwaggerResponse(200, "The dentist was deleted successfully")]
+    [SwaggerResponse(204, "The dentist was deleted successfully")]
     [SwaggerResponse(404, "The dentist was not found")]
-    public async Task<IActionResult> DeleteDentist(int id, DeleteDentistResource resource)
+    public async Task<IActionResult> DeleteDentist(int id)
     {
-        var getDentistByIdQuery = new GetDentistByIdQuery(id);
-        var existingDentist = await dentistQueryService.Handle(getDentistByIdQuery);
-        if (existingDentist is null)
-        {
-            return NotFound("The specified dentist could not be found.");
-        }
+        var deleteResource = new DeleteDentistResource(id);
         
-        var deleteDentistCommand = DeleteDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await dentistCommandService.Handle(deleteDentistCommand, id);
+        var deleteCommand = DeleteDentistCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
         
-        if (result is null) 
-            return BadRequest("The delete command could not be processed, check the provided identifier.");
+        await dentistCommandService.Handle(deleteCommand);
         
-        
-        var deletedDentistResource = DentistResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(deletedDentistResource);
+        return NoContent();
     }
 }
