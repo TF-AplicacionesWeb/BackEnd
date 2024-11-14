@@ -12,9 +12,7 @@ public class InventoryCommandService(IInventoryRepository inventoryRepository, I
 {
     public async Task<Inventory?> Handle(CreateInventoryCommand command)
     {
-        var existingInventoryById = await inventoryRepository.FindByIdAsync(command.id);
-        if (existingInventoryById != null)
-            throw new InvalidOperationException("A material with this ID already exists.");
+      
         var existingInventoryByMaterialName = await inventoryRepository.FindByMaterialNameAsync(command.material_name);
         if (existingInventoryByMaterialName != null)
             throw new InvalidOperationException("A material with this name already exists.");
@@ -62,21 +60,13 @@ public class InventoryCommandService(IInventoryRepository inventoryRepository, I
         return existingInventoryById;
     }
 
-    public async Task<Inventory?> Handle(DeleteInventoryCommand command, int id)
+    public async Task Handle(DeleteInventoryCommand command)
     {
-        var inventory = await inventoryRepository.FindByIdAsync(id);
-        if (inventory == null) throw new InvalidOperationException("Product with this ID does not exist");
+        var inventory = await inventoryRepository.FindByIdAsync(command.id);
+        if(inventory==null) throw new KeyNotFoundException($"Product with ID {command.id} not found.");
+        
+        inventoryRepository.Remove((inventory));
 
-        try
-        {
-            inventoryRepository.Remove(inventory);
-            await unitOfWork.CompleteAsync();
-        }
-        catch (DbUpdateException dbEx)
-        {
-            throw new Exception("An error occurred while deleting the product. Please try again.", dbEx);
-        }
-
-        return inventory;
+        await unitOfWork.CompleteAsync();
     }
 }

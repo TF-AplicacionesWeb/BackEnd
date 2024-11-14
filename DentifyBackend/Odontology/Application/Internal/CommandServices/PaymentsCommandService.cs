@@ -12,9 +12,6 @@ public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUni
 {
     public async Task<Payments?> Handle(CreatePaymentsCommand command)
     {
-        var existingPaymentsById = await paymentsRepository.FindByIdAsync(command.id);
-        if (existingPaymentsById != null)
-            throw new InvalidOperationException("A payments with this id already exists.");
         var payments = new Payments(command);
         try
         {
@@ -52,22 +49,14 @@ public class PaymentsCommandService(IPaymentsRepository paymentsRepository, IUni
         return existingPaymentsById;
     }
 
-    public async Task<Payments?> Handle(DeletePaymentsCommand command, int id)
+    public async Task Handle(DeletePaymentsCommand command)
     {
-        var existingPaymentsById = await paymentsRepository.FindByIdAsync(id);
-        if (existingPaymentsById == null)
-            throw new InvalidOperationException("A payments with this id not exist");
+        var payments = await paymentsRepository.FindByIdAsync(command.id);
+        if(payments== null) throw new KeyNotFoundException($"Payment with ID {command.id} not found.");
+        
+        paymentsRepository.Remove(payments);
 
-        try
-        {
-            paymentsRepository.Remove(existingPaymentsById);
-            await unitOfWork.CompleteAsync();
-        }
-        catch (DbUpdateException dbEx)
-        {
-            throw new Exception("An error occurred while deleting the Payment. Please try again.", dbEx);
-        }
+        await unitOfWork.CompleteAsync();
 
-        return existingPaymentsById;
     }
 }

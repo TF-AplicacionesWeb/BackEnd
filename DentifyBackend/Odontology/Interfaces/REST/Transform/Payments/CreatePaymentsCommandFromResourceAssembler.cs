@@ -7,6 +7,6 @@ public class CreatePaymentsCommandFromResourceAssembler
 {
     public static CreatePaymentsCommand ToCommandFromResource(CreatePaymentsResource resource)
     {
-        return new CreatePaymentsCommand(resource.id, resource.amount, resource.payment_date, resource.user_id);
+        return new CreatePaymentsCommand(resource.amount, resource.payment_date, resource.user_id);
     }
 }
