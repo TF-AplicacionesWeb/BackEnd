@@ -113,7 +113,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Patient>().Property(p => p.age).IsRequired();
         builder.Entity<Patient>().Property(p => p.medical_history).IsRequired();
         builder.Entity<Patient>().Property(p => p.birth_date).IsRequired();
-        builder.Entity<Patient>().Property(p => p.appointment_id).IsRequired();
+        
+        builder.Entity<Patient>().Property(p => p.appointment_id).IsRequired(false);
+        builder.Entity<Patient>()
+            .HasOne<Appointment>()
+            .WithMany()
+            .HasForeignKey(p => p.appointment_id)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
+        
         builder.Entity<Patient>().Property(p => p.user_id).IsRequired();
         builder.Entity<Patient>()
             .HasOne<User>()               

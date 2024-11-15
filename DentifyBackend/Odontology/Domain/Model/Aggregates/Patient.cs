@@ -40,7 +40,7 @@ public class Patient
     public int age { get; set; }
     public string medical_history { get; set; }
     public string birth_date { get; set; }
-    public int appointment_id { get; set; }
+    public int? appointment_id { get; set; }
     public int user_id { get; set; }
     
 }

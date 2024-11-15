@@ -11,8 +11,6 @@ public class PatientCommandService(IPatientRepository patientRepository, IUnitOf
 {
     public async Task<Patient?> Handle(CreatePatientCommand command)
     {
-        var existingPatient = await patientRepository.FindByIdAsync(command.id);
-        if (existingPatient is null) throw new InvalidOperationException($"Cannot find existing patient with id: {command.id}");
         var existingByIdAndEmail = await patientRepository.FindByIdAndEmail(command.id, command.email);
         if (existingByIdAndEmail != null) throw new InvalidOperationException($"Patient with id: {command.id} already exists");
 
