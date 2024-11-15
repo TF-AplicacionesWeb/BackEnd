@@ -9,5 +9,5 @@ public record CreatePatientCommand(
     int age,
     string medical_history,
     string birth_date,
-    int appointment_id,
+    int? appointment_id,
     int user_id);
