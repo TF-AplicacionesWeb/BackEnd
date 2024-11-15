@@ -1,10 +1,10 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Model.Aggregates;
+using DentifyBackend.Odontology.Domain.Repositories;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace DentifyBackend.Dentify.Infrastructure.Repositories;
+namespace DentifyBackend.Odontology.Infrastructure.Repositories;
 
 public class DentistRepository(AppDbContext context)
     : BaseRepository<Dentist>(context), IDentistRepository

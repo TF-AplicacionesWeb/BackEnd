@@ -1,8 +1,16 @@
-using DentifyBackend.Dentify.Application.Internal.CommandServices;
-using DentifyBackend.Dentify.Application.Internal.QueryServices;
-using DentifyBackend.Dentify.Domain.Repositories;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Infrastructure.Repositories;
+using DentifyBackend.Odontology.Application.Internal.CommandServices;
+using DentifyBackend.Odontology.Application.Internal.QueryServices;
+using DentifyBackend.Odontology.Domain.Repositories;
+using DentifyBackend.Odontology.Domain.Services.Appointment;
+using DentifyBackend.Odontology.Domain.Services.ClinicalRecordService;
+using DentifyBackend.Odontology.Domain.Services.Dentist;
+using DentifyBackend.Odontology.Domain.Services.Payments;
+using DentifyBackend.Odontology.Domain.Services.Inventory;
+using DentifyBackend.Odontology.Domain.Services.Patient;
+using DentifyBackend.Odontology.Domain.Services.ScheduleDentist;
+using DentifyBackend.Odontology.Domain.Services.SupportMessage;
+using DentifyBackend.Odontology.Domain.Services.User;
+using DentifyBackend.Odontology.Infrastructure.Repositories;
 using DentifyBackend.Shared.Domain.Repositories;
 using DentifyBackend.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using DentifyBackend.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -13,6 +21,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy", builder =>
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 // Configure Kebab Case Route Naming Convention.
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
@@ -57,12 +72,38 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+
 builder.Services.AddScoped<IDentistRepository, DentistRepository>();
 builder.Services.AddScoped<IDentistCommandService, DentistCommandService>();
 builder.Services.AddScoped<IDentistQueryService, DentistQueryService>();
+
 builder.Services.AddScoped<IScheduleDentistRepository, ScheduleDentistRepository>();
 builder.Services.AddScoped<IScheduleDentistCommandService, ScheduleDentistCommandService>();
 builder.Services.AddScoped<IScheduleDentistQueryService, ScheduleDentistQueryService>();
+
+builder.Services.AddScoped<IClinicalRecordRepository, ClinicalRecordRepository>();
+builder.Services.AddScoped<IClinicalRecordCommandService, ClinicalRecordComandService>();
+builder.Services.AddScoped<IClinicalRecordQueryService, ClinicalRecordQueryService>();
+
+builder.Services.AddScoped<ISupportMessageRepository, SupportMessageRepository>();
+builder.Services.AddScoped<ISupportMessageCommandService, SupportMessageCommandService>();
+builder.Services.AddScoped<ISupportMessageQueryService, SupportMessageQueryService>();
+
+builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddScoped<IPaymentsCommandService, PaymentsCommandService>();
+builder.Services.AddScoped<IPaymentsQueryService, PaymentsQueryService>();
+
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
+builder.Services.AddScoped<IIventoryQueryService, InventoryQueryService>();
+
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IPatientCommandService, PatientCommandService>();
+builder.Services.AddScoped<IPatientQueryService, PatientQueryService>();
+
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentCommandService, AppointmentCommandService>();
+builder.Services.AddScoped<IAppointmentQueryService, AppointmentQueryService>();
 
 
 var app = builder.Build();
@@ -82,6 +123,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllPolicy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

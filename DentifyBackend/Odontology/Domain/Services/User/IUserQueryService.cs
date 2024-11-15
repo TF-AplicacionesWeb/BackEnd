@@ -1,12 +1,10 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries;
+using DentifyBackend.Odontology.Domain.Model.Queries.User;
 
-
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.User;
 
 public interface IUserQueryService
 {
-    Task<IEnumerable<User>> Handle(GetAllUsersByUsernameQuery query);
-    Task<User?> Handle(GetUserByUsernameAndPasswordQuery query);
-    Task<User?> Handle(GetUserByIdQuery query);
+    Task<IEnumerable<Model.Aggregates.User>> Handle(GetAllUserQuery query);
+    Task<Model.Aggregates.User?> Handle(GetUserByUsernameAndPasswordQuery query);
+    Task<Model.Aggregates.User?> Handle(GetUserByIdQuery query);
 }

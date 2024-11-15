@@ -1,24 +1,14 @@
-using DentifyBackend.Dentify.Domain.Model.Commands;
+using DentifyBackend.Odontology.Domain.Model.Commands.Dentist;
 
-namespace DentifyBackend.Dentify.Domain.Model.Aggregates;
+namespace DentifyBackend.Odontology.Domain.Model.Aggregates;
 
 public class Dentist
 {
-    public int id { get; set; }
-    public string first_name { get; set; }
-    public string last_name { get; set; }
-    public string specialty { get; set; }
-    public int experience { get; set; }
-    public string phone { get; set; }
-    public string email { get; set; }
-    public int total_appointments { get; set; }
-    public int user_id { get; set; }
-    public List<ScheduleDentist> schedules { get; set; }
-
     public Dentist()
     {
         schedules = new List<ScheduleDentist>();
     }
+
     public Dentist(CreateDentistCommand command)
     {
         id = command.id;
@@ -32,4 +22,15 @@ public class Dentist
         user_id = command.user_id;
         schedules = new List<ScheduleDentist>();
     }
+
+    public int id { get; set; }
+    public string first_name { get; set; }
+    public string last_name { get; set; }
+    public string specialty { get; set; }
+    public int experience { get; set; }
+    public string phone { get; set; }
+    public string email { get; set; }
+    public int total_appointments { get; set; }
+    public int user_id { get; set; }
+    public List<ScheduleDentist> schedules { get; set; }
 }

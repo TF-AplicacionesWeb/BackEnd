@@ -1,12 +1,12 @@
 using System.Net.Mime;
-using DentifyBackend.Dentify.Domain.Model.Queries;
-using DentifyBackend.Dentify.Domain.Services;
-using DentifyBackend.Dentify.Interfaces.REST.Resources;
-using DentifyBackend.Dentify.Interfaces.REST.Transform;
+using DentifyBackend.Odontology.Domain.Model.Queries.ScheduleDentist;
+using DentifyBackend.Odontology.Domain.Services.ScheduleDentist;
+using DentifyBackend.Odontology.Interfaces.REST.Resources.ScheduleDentist;
+using DentifyBackend.Odontology.Interfaces.REST.Transform.ScheduleDentist;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace DentifyBackend.Dentify.Interfaces.REST;
+namespace DentifyBackend.Odontology.Interfaces.REST.Controllers;
 
 [ApiController]
 [Route("api/schedule_dentists")]
@@ -14,9 +14,8 @@ namespace DentifyBackend.Dentify.Interfaces.REST;
 [Tags("Schedules Dentists")]
 public class ScheduleDentistController(
     IScheduleDentistCommandService scheduleDentistCommandService,
-    IScheduleDentistQueryService scheduleDentistQueryService): ControllerBase
+    IScheduleDentistQueryService scheduleDentistQueryService) : ControllerBase
 {
-    
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a schedule dentist",
@@ -26,14 +25,15 @@ public class ScheduleDentistController(
     [SwaggerResponse(400, "The schedule dentist was not created")]
     public async Task<ActionResult> CreateScheduleDentist([FromBody] CreateScheduleDentistResource resource)
     {
-        var createScheduleDentistCommand = CreateScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var createScheduleDentistCommand =
+            CreateScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
         var result = await scheduleDentistCommandService.Handle(createScheduleDentistCommand);
         if (result is null) return BadRequest();
-        return CreatedAtAction(nameof(GetScheduleDentistById), new {id = result.id }, ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity(result));
+        return CreatedAtAction(nameof(GetScheduleDentistById), new { result.id },
+            ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
-    
-    
-    
+
+
     [HttpGet("{id}")]
     [SwaggerOperation(
         Summary = "Get a schedule dentist by id",
@@ -49,8 +49,8 @@ public class ScheduleDentistController(
         var resource = ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
-    
-    
+
+
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all the schedules dentists",
@@ -66,34 +66,23 @@ public class ScheduleDentistController(
         var resources = result.Select(ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(resources);
     }
-    
-    
-    
+
+
     [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a schedule dentist",
         Description = "Delete a schedule dentist by its identifier",
         OperationId = "DeleteScheduleDentist")]
-    [SwaggerResponse(200, "The schedule dentist was deleted successfully")]
+    [SwaggerResponse(204, "The schedule dentist was deleted successfully")]
     [SwaggerResponse(404, "The schedule dentist was not found")]
-    public async Task<IActionResult> DeleteScheduleDentist(int id, DeleteScheduleDentistResource resource)
+    public async Task<IActionResult> DeleteScheduleDentist(int id)
     {
-        var getScheduleDentistByIdQuery = new GetScheduleDentistByIdQuery(id);
-        var existingScheduleDentist = await scheduleDentistQueryService.Handle(getScheduleDentistByIdQuery);
-        if (existingScheduleDentist is null)
-        {
-            return NotFound("The specified schedule dentist could not be found.");
-        }
+        var deleteResource = new DeleteScheduleDentistResource(id);
         
-        var deleteScheduleDentistCommand = DeleteScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await scheduleDentistCommandService.Handle(deleteScheduleDentistCommand, id);
+        var deleteCommand = DeleteScheduleDentistCommandFromResourceAssembler.ToCommandFromResource(deleteResource);
         
-        if (result is null) 
-            return BadRequest("The delete command could not be processed, check the provided identifier.");
+        await scheduleDentistCommandService.Handle(deleteCommand);
         
-        
-        var deletedScheduleDentistResource = ScheduleDentistResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(deletedScheduleDentistResource);
+        return NoContent();
     }
-    
 }

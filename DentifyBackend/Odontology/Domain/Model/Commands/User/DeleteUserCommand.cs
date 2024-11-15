@@ -1,3 +1,3 @@
-namespace DentifyBackend.Dentify.Domain.Model.Commands;
+namespace DentifyBackend.Odontology.Domain.Model.Commands.User;
 
-public record DeleteUserCommand();
+public record DeleteUserCommand(int id);

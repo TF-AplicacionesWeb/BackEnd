@@ -1,11 +1,10 @@
-using DentifyBackend.Dentify.Domain.Model.Aggregates;
-using DentifyBackend.Dentify.Domain.Model.Queries;
+using DentifyBackend.Odontology.Domain.Model.Queries.Dentist;
 
-namespace DentifyBackend.Dentify.Domain.Services;
+namespace DentifyBackend.Odontology.Domain.Services.Dentist;
 
 public interface IDentistQueryService
 {
-    Task<IEnumerable<Dentist>> Handle(GetAllDentistsQuery query);
-    
-    Task<Dentist?> Handle(GetDentistByIdQuery query);
+    Task<IEnumerable<Model.Aggregates.Dentist>> Handle(GetAllDentistsQuery query);
+
+    Task<Model.Aggregates.Dentist?> Handle(GetDentistByIdQuery query);
 }

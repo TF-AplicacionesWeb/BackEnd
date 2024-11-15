@@ -1,19 +1,13 @@
-using DentifyBackend.Dentify.Domain.Model.Commands;
+using DentifyBackend.Odontology.Domain.Model.Commands.ScheduleDentist;
 
-namespace DentifyBackend.Dentify.Domain.Model.Aggregates;
+namespace DentifyBackend.Odontology.Domain.Model.Aggregates;
 
 public class ScheduleDentist
 {
-    public int id { get; set; }
-    public int dentist_id { get; set; }
-    public string weekday { get; set; }
-    public string start_time { get; set; }
-    public string end_time { get; set; }
-    public string date { get; set; }
-    
-    public int user_id { get; set; }
+    public ScheduleDentist()
+    {
+    }
 
-    public ScheduleDentist(){}
     public ScheduleDentist(CreateScheduleDentistCommand command)
     {
         dentist_id = command.dentist_id;
@@ -23,4 +17,13 @@ public class ScheduleDentist
         date = command.date;
         user_id = command.user_id;
     }
+
+    public int id { get; set; }
+    public int dentist_id { get; set; }
+    public string weekday { get; set; }
+    public string start_time { get; set; }
+    public string end_time { get; set; }
+    public string date { get; set; }
+
+    public int user_id { get; set; }
 }
