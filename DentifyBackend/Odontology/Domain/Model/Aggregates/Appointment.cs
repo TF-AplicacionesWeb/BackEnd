@@ -39,7 +39,7 @@ public class Appointment
         this.completed = false;
         this.reminder_sent = false;
         this.duration_minutes = command.duration_minutes;
-        this.payment_id = null;
+        this.payment_id = command.payment_id;
         this.payment_status = false;
     }
 }

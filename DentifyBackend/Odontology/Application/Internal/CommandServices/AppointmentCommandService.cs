@@ -41,6 +41,7 @@ public class AppointmentCommandService(IAppointmentRepository appointmentReposit
         existingAppoById.payment_id  = command.payment_id;
         existingAppoById.payment_status = command.payment_status;
         
+        
         try
         {
             appointmentRepository.Update(existingAppoById);

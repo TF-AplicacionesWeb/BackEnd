@@ -161,6 +161,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Appointment>().Property(s => s.completed).IsRequired();
         builder.Entity<Appointment>().Property(s => s.reminder_sent).IsRequired();
         builder.Entity<Appointment>().Property(s => s.duration_minutes).IsRequired();
+        builder.Entity<Appointment>().HasOne<Payments>()
+            .WithOne()
+            .HasForeignKey<Appointment>(p => p.payment_id)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.Entity<Appointment>().Property(s => s.payment_status).IsRequired();
         
 
