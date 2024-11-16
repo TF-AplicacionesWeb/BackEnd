@@ -64,7 +64,7 @@ public class InventoryController(
         return Ok(resources);
     }
 
-    [HttpPatch("{id}")]
+    [HttpPut("{id}")]
     [SwaggerOperation(
         Summary = "Update a product",
         Description = "Update information about a product in inventory",
