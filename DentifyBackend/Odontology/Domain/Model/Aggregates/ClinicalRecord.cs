@@ -7,6 +7,16 @@ public class ClinicalRecord
     public ClinicalRecord()
     {
     }
+    
+    public ClinicalRecord(int id, string medical_history, string record_date, string diagnosis, string treatment, int user_id)
+    {
+        this.id = id;
+        this.medical_history = medical_history;
+        this.record_date = record_date;
+        this.diagnosis = diagnosis;
+        this.treatment = treatment;
+        this.user_id = user_id;
+    }
 
     public ClinicalRecord(CreateClinicalRecordCommand command)
     {
